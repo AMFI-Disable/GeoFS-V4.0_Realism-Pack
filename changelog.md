@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.0] - V4 compatibility fixes
+## [0.1.0] - V4 Compatibility Fixes
 
 - Uses V4 foundation dependencies and shader syntax, guards aircraft transitions, saves settings, and marks unimplemented vortex and carrier controls unavailable.
 
