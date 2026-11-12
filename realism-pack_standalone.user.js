@@ -109,8 +109,8 @@
 // @icon                https://www.geo-fs.com/images/icons/favicon.ico
 // @match               https://beta.geo-fs.com/geofs.php*
 // @match               https://www.geo-fs.com/geofs.php*
-// @require             https://update.greasyfork.org/scripts/581510/code.js
-// @require             https://update.greasyfork.org/scripts/581511/code.js
+// @require             https://update.greasyfork.org/scripts/604885/code.js
+// @require             https://update.greasyfork.org/scripts/604887/code.js
 // @grant               none
 // @license             MIT
 // @copyright           2026, AMFI-Disable (https://greasyfork.org/users/1594049)
@@ -173,7 +173,7 @@
          * Realism Configuration State
          * Persists module toggles across session reloads.
          */
-        window.realismSettings = window.realismSettings || {
+        const realismDefaults = {
             gBreath: true, 
             cameraShake: true, 
             blackout: true, 
@@ -190,6 +190,9 @@
             addonAircraft: false, 
             performanceMode: false
         };
+        let savedRealism = {};
+        try { savedRealism = JSON.parse(localStorage.getItem('geofs-v40-realism') || '{}') || {}; } catch (_) {}
+        window.realismSettings = Object.assign({}, realismDefaults, savedRealism, window.realismSettings || {});
         
         /**
          * Toggles a realism setting parameter and updates the UI state.
@@ -197,7 +200,9 @@
          * @param {string} key - The configuration setting key to toggle.
          */
         window.toggleRealismParam = (key) => {
+            if (key === 'vortexEffects' || key === 'carrierOps') return;
             window.realismSettings[key] = !window.realismSettings[key];
+            try { localStorage.setItem('geofs-v40-realism', JSON.stringify(window.realismSettings)); } catch (_) {}
             const tgl = document.getElementById(`toggle_${key}`);
             if (tgl) {
                 tgl.style.background = window.realismSettings[key] ? '#4caf50' : 'rgba(255,255,255,0.05)';
@@ -214,6 +219,9 @@
          * @returns {string} The HTML string for the toggle UI component.
          */
         function makeToggle(label, key) {
+            if (key === 'vortexEffects' || key === 'carrierOps') {
+                return `<div style="display:flex;justify-content:space-between;align-items:center;padding:2px 0;opacity:.5" title="Not yet available on GeoFS V4"><span style="font-size:.7rem">${label.toUpperCase()}</span><span style="font-size:.6rem">UNAVAILABLE</span></div>`;
+            }
             return `
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 0; transition: all 0.2s ease;">
                     <span style="font-size: 0.7rem; color: rgba(255,255,255,0.6); font-weight: 500; letter-spacing: 0.3px;">${label.toUpperCase()}</span>
@@ -343,14 +351,14 @@
                  */
                 const blackoutShader = `
                     uniform sampler2D colorTexture;
-                    varying vec2 v_textureCoordinates;
+                    in vec2 v_textureCoordinates;
                     uniform float strength;
                     vec4 vignette(float strength, vec2 coordinate, vec2 texCoord) {
                         vec2 uv = coordinate.xy / czm_viewport.zw;  
                         uv *=  1.0 - uv.yx;
                         float vig = (uv.x*uv.y) * 15.0; 
                         vig = pow(vig, strength);
-                        return mix(vec4(vig), texture2D(colorTexture, texCoord), vig); 
+                        return mix(vec4(vig), texture(colorTexture, texCoord), vig);
                     }
                     vec4 grayOut(float strength, vec2 coordinate, vec2 texCoord) {
                       vec4 initialCol = vignette(strength * 20.0, coordinate, texCoord);
@@ -366,7 +374,7 @@
                       vec4 blurCol4    = grayOut(strength, coordinate + vec2(0.0, -radius), texCoord + vec2(0.0, -radius));
                       return mix(initialCol, (blurCol1 + blurCol2 + blurCol3 + blurCol4) / 4.0, strength * 2.0);
                     }
-                    void main() { gl_FragColor = blur(strength, gl_FragCoord.xy, v_textureCoordinates); }
+                    void main() { out_FragColor = blur(strength, gl_FragCoord.xy, v_textureCoordinates); }
                 `;
 
                 let boTimer = 0;
@@ -486,7 +494,7 @@
 
             initEngineSystems: () => {
                 setInterval(() => {
-                    if (!window.realismSettings.engineInertia || !geofs.aircraft.instance || geofs.aircraft.instance.definition.maxRPM !== 10000) return;
+                    if (!window.realismSettings.engineInertia || !geofs.aircraft.instance || geofs.aircraft.instance.definition?.maxRPM !== 10000) return;
                     const rpm = geofs.animation.values.rpm;
                     geofs.aircraft.instance.definition.engineInertia = (rpm < 6000) ? 0.2 : (rpm < 7000 ? 0.5 : 1);
                 }, 100);

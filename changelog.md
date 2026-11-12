@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased - V4 compatibility fixes
+
+- Uses V4 foundation dependencies and shader syntax, guards aircraft transitions, saves settings, and marks unimplemented vortex and carrier controls unavailable.
+
 ## [4.0.0] - GeoFS 4.0 Port & Unified V3.9 Design
 
 - Ported to GeoFS 4.0 ecosystem with dual-host support (`beta.geo-fs.com` and `www.geo-fs.com`).
