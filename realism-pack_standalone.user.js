@@ -103,7 +103,7 @@
 // @description:ur      اعلی درجے کا فزکس انجن جس میں G-force اثرات، کیمرہ شیک، اور عمیق آڈیو شامل ہیں۔ © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
 
 // @namespace           https://greasyfork.org/users/1594049
-// @version             0.1.0
+// @version             0.1.1
 // @author              AMFI-Disable
 // @homepageURL         https://sites.google.com/view/geofs-v40-ecosystem/home
 // @icon                https://www.geo-fs.com/images/icons/favicon.ico
@@ -167,7 +167,7 @@
 
         // Global Flag: Enables advanced aerodynamic constants
         geofs.cons = true; 
-        const AUDIO_BASE = "https://geofs-assets.evengao6688.workers.dev/audio/";
+        const AUDIO_BASE = "https://cdn.jsdelivr.net/gh/AMFI-Disable/GeoFS-V3.9_Assets@main/audio/";
 
         /**
          * Realism Configuration State
@@ -526,9 +526,9 @@
                     if ([4, 3054].includes(id)) {
                         const s = document.createElement('script'); s.src = "https://raw.githack.com/AbnormalHuman/GeoFS-737-Immersion-SFX/main/index.js"; document.body.appendChild(s);
                     } else if ([240, 25, 4402].includes(id)) {
-                        const s = document.createElement('script'); s.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/sfx_777.js"; document.body.appendChild(s);
+                        const s = document.createElement('script'); s.src = "https://cdn.jsdelivr.net/gh/AMFI-Disable/GeoFS-V3.9_Assets@main/addons/realism_addon/scripts/sfx_777.js"; document.body.appendChild(s);
                     } else if ([2865, 2870, 2871, 242, 2843, 2899, 24, 2973].includes(id)) {
-                        const s = document.createElement('script'); s.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/sfx_a320.js"; document.body.appendChild(s);
+                        const s = document.createElement('script'); s.src = "https://cdn.jsdelivr.net/gh/AMFI-Disable/GeoFS-V3.9_Assets@main/addons/realism_addon/scripts/sfx_a320.js"; document.body.appendChild(s);
                     }
                     window.lastAudioLoad = id;
                 }, 2000);

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.1] - Asset Recovery
+
+- Restore the original assets using the GeoFS assets repository CDN.
+
 ## [0.1.0] - V4 Compatibility Fixes
 
 - Uses V4 foundation dependencies and shader syntax, guards aircraft transitions, saves settings, and marks unimplemented vortex and carrier controls unavailable.
