@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.1.1] - Asset Recovery
+All notable changes, features, and architectural capabilities of this project are documented in this file.
 
-- Restore the original assets using the GeoFS assets repository CDN.
+---
+
+## [Unreleased]
+
+### Fixed
+
+- **Asset Recovery**: Restored high-fidelity realism audio assets and immersion scripts using jsDelivr CDN endpoints (`realism-pack_standalone.user.js`).
+
+---
 
 ## [0.1.0] - V4 Compatibility Fixes
 
